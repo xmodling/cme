@@ -5,7 +5,7 @@ import vk_api
 import time
 import json
 import random
-token = os.environ.get('vktoken)
+token = os.environ.get('vktoken')
 from vk_api.longpoll import VkLongPoll, VkEventType
 vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
