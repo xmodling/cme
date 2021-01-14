@@ -6,7 +6,7 @@ import json
 import random
 import re
 import os
-token = 'ccb00173d59e541c1f01b9fce4748fcd95425c1b15a3a2d425fb4196ca6d4373fb7d65bb52f87b5bf9bce'
+token = os.environ.get('vktoken')
 obamavideo = 'video615903213_456239017', 'video615903213_456239018','video615903213_456239025', 'video615903213_456239024','video615903213_456239023'
 meizu = 'photo615903213_457239156', 'photo615903213_457239157', 'photo615903213_457239158', 'photo615903213_457239159', 'photo615903213_457239160', 'photo615903213_457239161'
 from vk_api.longpoll import VkLongPoll, VkEventType
