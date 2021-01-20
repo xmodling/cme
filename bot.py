@@ -65,12 +65,12 @@ for event in longpoll.listen():
             if '.nw test' in event.text.lower():
                 try:
                     ph = {
-                        'Geekbench 4.4 (одноядерный)': '',
-                        'Geekbench 4.4 (многоядерный)': '',
-                        'Geekbench 5 (одноядерный)': '',
-                        'Geekbench 5 (многоядерный)': '',
-                        'AnTuTu Benchmark 7': '',
-                        'AnTuTu Benchmark 8': ''
+                        'Geekbench 4.4 (одноядерный)': ' Неизвестно',
+                        'Geekbench 4.4 (многоядерный)': ' Неизвестно',
+                        'Geekbench 5 (одноядерный)': ' Неизвестно',
+                        'Geekbench 5 (многоядерный)': ' Неизвестно',
+                        'AnTuTu Benchmark 7': ' Неизвестно',
+                        'AnTuTu Benchmark 8': ' Неизвестно'
                         }
                     phone = f'{event.text.lower()[9:]}'
                     url = f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}'
