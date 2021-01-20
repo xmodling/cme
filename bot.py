@@ -61,6 +61,38 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json()
                         print(resp2)
+            if '.nw test' in event.text.lower():
+                try:
+                    ph = {
+                        'Geekbench 4.4 (одноядерный)': '',
+                        'Geekbench 4.4 (многоядерный)': '',
+                        'Geekbench 5 (одноядерный)': '',
+                        'Geekbench 5 (многоядерный)': '',
+                        'AnTuTu Benchmark 7': '',
+                        'AnTuTu Benchmark 8': ''
+                        }
+                    phone = f'{event.text.lower()[9:]}'
+                    url = f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}'
+                    r = requests.get(f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}')
+                    t = BS(r.text, 'html.parser')    
+                    c = t.select('span.score-bar-result-number')
+                    sc = t.select('div.score-bar-name')
+                    pos = 0
+                    for i in range(2,8):
+                        name = sc[i + 5].text
+                        result = c[i].text
+                        name = name.replace('\n', '')
+                        name = name.replace('\t', '')
+                        for f in range(len(ph.keys())):
+                            ph[name] = result
+                    res = list(ph.keys())[0] + ' ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' ' + list(ph.values())[5]
+                    respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message={res}&reply_to={event.message_id}',
+                                        token = token)
+                                        ).json()
+                except Exception as E:
+                    print(E)
             if event.text.lower() == '.meizu':
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
