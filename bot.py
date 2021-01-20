@@ -4,6 +4,7 @@ import vk_api
 import time
 import json
 import random
+from bs4 import BeautifulSoup as BS
 import re
 import os
 token = os.environ.get('vktoken')
