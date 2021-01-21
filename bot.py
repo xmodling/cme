@@ -79,6 +79,18 @@ for event in longpoll.listen():
                     c = t.select('span.score-bar-result-number')
                     sc = t.select('div.score-bar-name')
                     pos = 0
+                    try:
+                        try:
+                          b = t.select_one('div.exeption-container')
+                          if b:
+                              c = b.select_one('h3')
+                      except Exception as ES:
+                          respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message="Произошла ошибка, проверьте, правильно ли вы ввели название смартфона, вводить его нужно полностью (Пример: Vivo iQOO 7 / Oppo Realme x50 5G). '\n' '\n' Ошибка: {c.text}.&reply_to={event.message_id}',
+                                        token = token)
+                                        ).json()                                   
+                          print('Ошибка при ошибке:', ES)
                     for i in range(2,8):
                         try:
                           name = sc[i + 5].text
