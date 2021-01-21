@@ -88,26 +88,26 @@ for event in longpoll.listen():
                                         params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название смартфона, вводить его нужно полностью (Пример: Vivo iQOO 7 / Oppo Realme x50 5G). \n \n Ошибка: {c.text}.&reply_to={event.message_id}',
                                         token = token)
                                         ).json() 
-                    except Exception as ES:                                  
-                        print('Ошибка при ошибке:', ES)
-                    for i in range(2,8):
-                        try:
-                          name = sc[i + 5].text
-                          result = c[i].text
-                          name = name.replace('\n', '')
-                          name = name.replace('\t', '')
-                          for f in range(len(ph.keys())):
-                              ph[name] = result
-                        except Exception:
-                            None
-                    res = list(ph.keys())[0] + ' - ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' —— ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' —— ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' —— ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' —— ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' —— ' + list(ph.values())[5]
-                    respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.send',
-                                        params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
-                                        token = token)
-                                        ).json()
-                except Exception as E:
-                    print(E)
+                        else:
+                            try:
+                              for i in range(2,8):
+                                  try:
+                                      name = sc[i + 5].text
+                                      result = c[i].text
+                                      name = name.replace('\n', '')
+                                      name = name.replace('\t', '')
+                                      for f in range(len(ph.keys())):
+                                          ph[name] = result
+                                  except Exception:
+                                      None
+                                  res = list(ph.keys())[0] + ' - ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' —— ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' —— ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' —— ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' —— ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' —— ' + list(ph.values())[5]
+                                  respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                      method = 'messages.send',
+                                                      params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
+                                                      token = token)
+                                                      ).json()
+                          except Exception as E:
+                              print(E)
             if event.text.lower() == '.meizu':
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
