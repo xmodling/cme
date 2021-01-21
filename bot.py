@@ -106,8 +106,8 @@ for event in longpoll.listen():
                                                       params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
                                                       token = token)
                                                       ).json()
-                          except Exception as E:
-                              print(E)
+                            except Exception as E:
+                                print(E)
             if event.text.lower() == '.meizu':
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
