@@ -65,10 +65,10 @@ for event in longpoll.listen():
             if '.nw test' in event.text.lower():
                 try:
                     ph = {
-                        'Geekbench 4.4 (одноядерный)': '&#12288;&#12288;&#12288;Неизвестно',
-                        'Geekbench 4.4 (многоядерный)': '&#12288;&#12288;&#12288;Неизвестно',
-                        'Geekbench 5 (одноядерный)': '&#12288;&#12288;&#12288;Неизвестно',
-                        'Geekbench 5 (многоядерный)': '&#12288;&#12288;&#12288;Неизвестно',
+                        'Geekbench 4.4 (одноядерный)': 'Неизвестно',
+                        'Geekbench 4.4 (многоядерный)':'Неизвестно',
+                        'Geekbench 5 (одноядерный)': 'Неизвестно',
+                        'Geekbench 5 (многоядерный)': 'Неизвестно',
                         'AnTuTu Benchmark 7': ' Неизвестно',
                         'AnTuTu Benchmark 8': ' Неизвестно'
                         }
@@ -89,7 +89,7 @@ for event in longpoll.listen():
                               ph[name] = result
                         except Exception:
                             None
-                    res = list(ph.keys())[0] + '&#12288;&#12288;&#12288;' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + '&#12288;&#12288;&#12288;' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + '&#12288;&#12288;&#12288;' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + '&#12288;&#12288;&#12288;' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + '&#12288;&#12288;&#12288;' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + '&#12288;&#12288;&#12288;' + list(ph.values())[5]
+                    res = list(ph.keys())[0] + ' - ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' —— ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' —— ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' —— ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' —— ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' —— ' + list(ph.values())[5]
                     respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
