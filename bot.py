@@ -108,6 +108,9 @@ for event in longpoll.listen():
                                                       ).json()
                             except Exception as E:
                                 print(E)
+                except Exception as Es:
+                    None
+                    
             if event.text.lower() == '.meizu':
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
