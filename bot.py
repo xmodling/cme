@@ -64,7 +64,9 @@ for event in longpoll.listen():
                         print(resp2)
             if '.cp test' in event.text.lower():
               try:
-                b = t.select_one('div.exeption-container')
+                r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
+                a = BS(r.text, 'html.parser')
+                b = a.select_one('div.exeption-container')
                 if b:
                   respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
@@ -72,8 +74,6 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json() 
                 else:
-                  r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
-                  a = BS(r.text, 'html.parser')
                   a = a.select_one('div.two-columns')
                   respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
