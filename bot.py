@@ -71,7 +71,7 @@ for event in longpoll.listen():
                 if b:
                   respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название, вводить его нужно полностью (Пример: Amd Ryzen 5 3600 / Intel Core i3 10100f). \n \n Ошибка: {c.text}&reply_to={event.message_id}',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название, вводить его нужно полностью (Пример: Amd Ryzen 5 3600 / Intel Core i3 10100f). \n \n Ошибка: {b.text}&reply_to={event.message_id}',
                                         token = token)
                                         ).json() 
                 else:
