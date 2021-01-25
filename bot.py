@@ -80,7 +80,7 @@ for event in longpoll.listen():
                   a = a.replace('\t\t\t\t', '\n')
                   respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
-                                        params = f'peer_id={event.peer_id}&random_id={0}&message={a.text}.&reply_to={event.message_id}',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message={a}.&reply_to={event.message_id}',
                                         token = token)
                                         ).json() 
               except Exception as e:
