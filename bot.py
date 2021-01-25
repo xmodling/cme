@@ -62,6 +62,25 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json()
                         print(resp2)
+            if '.cp test' in event.text.lower():
+              try:
+                b = t.select_one('div.exeption-container')
+                if b:
+                  respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название, вводить его нужно полностью (Пример: Amd Ryzen 5 3600 / Intel Core i3 10100f). \n \n Ошибка: {c.text}&reply_to={event.message_id}',
+                                        token = token)
+                                        ).json() 
+                else:
+                  r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
+                  a = BS(r.text, 'html.parser')
+                  a = a.select_one('div.two-columns')
+                  respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message={a.text}.&reply_to={event.message_id}',
+                                        token = token)
+                                        ).json() 
+
             if '.nw test' in event.text.lower():
                 try:
                     ph = {
