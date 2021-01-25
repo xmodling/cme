@@ -80,7 +80,8 @@ for event in longpoll.listen():
                                         params = f'peer_id={event.peer_id}&random_id={0}&message={a.text}.&reply_to={event.message_id}',
                                         token = token)
                                         ).json() 
-
+              except Exception as e:
+                print(e)
             if '.nw test' in event.text.lower():
                 try:
                     ph = {
