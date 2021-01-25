@@ -64,6 +64,7 @@ for event in longpoll.listen():
                         print(resp2)
             if '.cp test' in event.text.lower():
               try:
+                prc = event.text.lower()[9:].replace(' ', '-')
                 r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
                 a = BS(r.text, 'html.parser')
                 b = a.select_one('div.exeption-container')
