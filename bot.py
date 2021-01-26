@@ -14,8 +14,9 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
 vk = vk_session.get_api()
-nfcusers = 323588703, 284742001
-users = 445974783, 323588703, 284742001, 444609988, 548365367, 197753478
+creator = [323588703, 615903213]
+nfcusers = [323588703, 284742001]
+users = [445974783, 323588703, 284742001, 444609988, 548365367, 197753478]
 album = 'photo615903213_457239073', 'photo615903213_457239072', 'photo615903213_457239071', 'photo615903213_457239070', 'photo615903213_457239069', 'photo615903213_457239068', 'photo615903213_457239067', 'photo615903213_457239066', 'photo615903213_457239065', 'photo615903213_457239064', 'photo615903213_457239063', 'photo615903213_457239062', 'photo615903213_457239061', 'photo615903213_457239060', 'photo615903213_457239059'
 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.getLongPollServer',
@@ -27,6 +28,73 @@ for event in longpoll.listen():
     try:
         text = event.__dict__
         checkid = text['from']
+        if event.text.lower() == '.donate':
+            resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={event.peer_id}&random_id={0}&message=Доступ к основным командам ---> 100р. Доступ к основным командам + .nfc --->  250р. Донатить нужно сюда (qiwi.com/n/ZABIVNOY2012), в примечании укажи своё ФИО в вк или ID.&reply_to={event.message_id}',
+                                        token = token)
+                                        ).json()
+        if int(checkid) in creator:
+            if event.text.lower() == '.setrole prince':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                users.append(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователюъ были выданы права на основные команды. ({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.setrole king':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                nfcusers.append(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователю] были выданы права на все команды. ({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.clear king':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                nfcusers.remove(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] потерял свои права на использование команд.({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.clear prince':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                users.remove(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] потерял свои права на использование команд.({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
         if int(checkid) in users:
             if event.text.lower() == '.nfcstatus':
                     text = event.__dict__
@@ -62,76 +130,131 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json()
                         print(resp2)
-            if '.cp test' in event.text.lower():
-              try:
-                prc = event.text.lower()[9:].replace(' ', '-')
-                r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
-                a = BS(r.text, 'html.parser')
-                b = a.select_one('div.exeption-container')
+            if '.honor' in event.text.lower():
+                msg = 'В Lego Village завезли партию новых дилдо. Помогите Толику потерять анальную девственность и выбросить какашку без нфс. Хонор для латексных гомосексуалистов.';
+                respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                method = 'messages.send',
+                                                params = f'peer_id={event.peer_id}&random_id={0}&message={msg}&reply_to={event.message_id}',
+                                                token = token)
+                                                ).json() 
+            if '.nw cpu' in event.text.lower():
+                if 'cpuinfo' not in event.text.lower():
+                    try:
+                        prc = event.text.lower()[8:].replace(' ', '-')
+                        r = requests.get(f'https://nanoreview.net/ru/cpu/{prc}')
+                        a = BS(r.text, 'html.parser')
+                        b = a.select_one('div.exeption-container')
+                        if b:
+                            respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                method = 'messages.send',
+                                                params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название, вводить его нужно полностью (Пример: Amd Ryzen 5 3600 / Intel Core i3 10100f). \n \n Ошибка: {b.text}&reply_to={event.message_id}',
+                                                token = token)
+                                                ).json() 
+                        else:
+                            a = a.select_one('div.two-columns')
+                            a = a.text.replace('\n', '')
+                            a = a.replace('\t\t\t\t', '\n')
+                            respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                    method = 'messages.send',
+                                                    params = f'peer_id={event.peer_id}&random_id={0}&message={a}.&reply_to={event.message_id}',
+                                                    token = token)
+                                                    ).json() 
+                    except Exception as e:
+                        print(e)
+            if '.nw phone' in event.text.lower():
+                if 'phonecpu' not in event.text.lower():
+                    try:
+                        ph = {
+                            'Geekbench 4.4 (одноядерный)': 'Неизвестно',
+                            'Geekbench 4.4 (многоядерный)':'Неизвестно',
+                            'Geekbench 5 (одноядерный)': 'Неизвестно',
+                            'Geekbench 5 (многоядерный)': 'Неизвестно',
+                            'AnTuTu Benchmark 7': ' Неизвестно',
+                            'AnTuTu Benchmark 8': ' Неизвестно'
+                            }
+                        phone = f'{event.text.lower()[10:]}'
+                        url = f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}'
+                        r = requests.get(f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}')
+                        t = BS(r.text, 'html.parser')    
+                        c = t.select('span.score-bar-result-number')
+                        sc = t.select('div.score-bar-name')
+                        pos = 0
+                        try:
+                            b = t.select_one('div.exeption-container')
+                            if b:
+                                c = b.select_one('h3')
+                                respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название смартфона, вводить его нужно полностью (Пример: Vivo iQOO 7 / Oppo Realme x50 5G). \n \n Ошибка: {c.text}.&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json() 
+                            else:
+                                for i in range(2,8):
+                                    try:
+                                        name = sc[i + 5].text
+                                        result = c[i].text
+                                        name = name.replace('\n', '')
+                                        name = name.replace('\t', '')
+                                        for f in range(len(ph.keys())):
+                                            ph[name] = result
+                                    except Exception:
+                                        None
+                                res = list(ph.keys())[0] + ' - ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' —— ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' —— ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' —— ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' —— ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' —— ' + list(ph.values())[5]
+                                respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                    method = 'messages.send',
+                                                    params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
+                                                    token = token)
+                                                    ).json()
+                        except Exception as Es:
+                            None
+                    except Exception as Exc:
+                        print(Exc)
+            if '.nw cpuinfo' in event.text.lower():
+                prc = event.text.lower()[12:].replace(' ', '-')
+                r = requests.get(f'https://nanoreview.net/ru/cpu/{prc.replace(" ", "-")}')
+                bf = BS(r.text, 'html.parser')
+                b = bf.select_one('div.exeption-container')
                 if b:
-                  respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название, вводить его нужно полностью (Пример: Amd Ryzen 5 3600 / Intel Core i3 10100f). \n \n Ошибка: {b.text}&reply_to={event.message_id}',
                                         token = token)
                                         ).json() 
                 else:
-                  a = a.select_one('div.two-columns')
-                  a = a.text.replace('\n', '')
-                  a = a.replace('\t\t\t\t', '\n')
-                  respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    a = bf.select('table.specs-table')[1].text + bf.select('table.specs-table')[2].text + bf.select('table.specs-table')[3].text
+                    a = a.replace('\n\n', '\n')
+                    respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={event.peer_id}&random_id={0}&message={a}.&reply_to={event.message_id}',
                                         token = token)
-                                        ).json() 
-              except Exception as e:
-                print(e)
-            if '.nw test' in event.text.lower():
-                try:
-                    ph = {
-                        'Geekbench 4.4 (одноядерный)': 'Неизвестно',
-                        'Geekbench 4.4 (многоядерный)':'Неизвестно',
-                        'Geekbench 5 (одноядерный)': 'Неизвестно',
-                        'Geekbench 5 (многоядерный)': 'Неизвестно',
-                        'AnTuTu Benchmark 7': ' Неизвестно',
-                        'AnTuTu Benchmark 8': ' Неизвестно'
-                        }
-                    phone = f'{event.text.lower()[9:]}'
-                    url = f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}'
-                    r = requests.get(f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}')
-                    t = BS(r.text, 'html.parser')    
-                    c = t.select('span.score-bar-result-number')
-                    sc = t.select('div.score-bar-name')
-                    pos = 0
-                    try:
-                        b = t.select_one('div.exeption-container')
-                        if b:
-                            c = b.select_one('h3')
-                            respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                        method = 'messages.send',
-                                        params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название смартфона, вводить его нужно полностью (Пример: Vivo iQOO 7 / Oppo Realme x50 5G). \n \n Ошибка: {c.text}.&reply_to={event.message_id}',
-                                        token = token)
-                                        ).json() 
-                        else:
-                            for i in range(2,8):
-                                try:
-                                    name = sc[i + 5].text
-                                    result = c[i].text
-                                    name = name.replace('\n', '')
-                                    name = name.replace('\t', '')
-                                    for f in range(len(ph.keys())):
-                                        ph[name] = result
-                                except Exception:
-                                    None
-                            res = list(ph.keys())[0] + ' - ' + list(ph.values())[0] + '\n' + list(ph.keys())[1] + ' —— ' + list(ph.values())[1] + '\n' + list(ph.keys())[2] + ' —— ' + list(ph.values())[2] + '\n' + list(ph.keys())[3] + ' —— ' + list(ph.values())[3] + '\n' + list(ph.keys())[4] + ' —— ' + list(ph.values())[4] + '\n' + list(ph.keys())[5] + ' —— ' + list(ph.values())[5]
-                            respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                                method = 'messages.send',
-                                                params = f'peer_id={event.peer_id}&random_id={0}&message={res}.&reply_to={event.message_id}',
-                                                token = token)
-                                                ).json()
-                    except Exception as Es:
-                     None
-                except Exception as Exc:
-                    print(Exc)
+                                        ).json()                
+            if '.nw phonecpu' in event.text.lower():
+                phone = f'{event.text.lower()[13:]}'
+                r = requests.get(f'https://nanoreview.net/ru/phone/{phone.replace(" ", "-")}')
+                gf = BS(r.text, 'html.parser')
+                b = gf.select_one('div.exeption-container')
+                if b:
+                    c = b.select_one('h3')
+                    respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.send',
+                                params = f'peer_id={event.peer_id}&random_id={0}&message=Произошла ошибка, проверьте, правильно ли вы ввели название смартфона, вводить его нужно полностью (Пример: Vivo iQOO 7 / Oppo Realme x50 5G). \n \n Ошибка: {c.text}.&reply_to={event.message_id}',
+                                token = token)
+                                ).json()
+                else: 
+
+                    inf = gf.select('table.specs-table')[3].text.replace('\n\n', '\n')
+                    if 'процессор' in inf.lower():
+                        respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message={inf}.&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+                    else:
+                        respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=Неизвестная ошибка.&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
             if event.text.lower() == '.meizu':
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
@@ -441,4 +564,5 @@ for event in longpoll.listen():
                 except Exception as be:
                     None
     except Exception as es:
+        print(es)
         None
