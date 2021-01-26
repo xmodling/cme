@@ -564,5 +564,4 @@ for event in longpoll.listen():
                 except Exception as be:
                     None
     except Exception as es:
-        print(es)
         None
