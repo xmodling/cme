@@ -16,7 +16,7 @@ longpoll = VkLongPoll(vk_session)
 vk = vk_session.get_api()
 creator = [323588703, 615903213]
 nfcusers = [323588703, 284742001]
-users = [445974783, 323588703, 284742001, 444609988, 548365367, 197753478]
+users = [445974783, 323588703, 284742001, 444609988, 548365367, 197753478] +  nfcusers
 album = 'photo615903213_457239073', 'photo615903213_457239072', 'photo615903213_457239071', 'photo615903213_457239070', 'photo615903213_457239069', 'photo615903213_457239068', 'photo615903213_457239067', 'photo615903213_457239066', 'photo615903213_457239065', 'photo615903213_457239064', 'photo615903213_457239063', 'photo615903213_457239062', 'photo615903213_457239061', 'photo615903213_457239060', 'photo615903213_457239059'
 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.getLongPollServer',
@@ -47,7 +47,7 @@ for event in longpoll.listen():
                 users.append(m)
                 r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
-                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователюъ были выданы права на основные команды. ({m})&reply_to={event.message_id}',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователю] были выданы права на основные команды. ({m})&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
             if event.text.lower() == '.setrole king':
@@ -63,6 +63,21 @@ for event in longpoll.listen():
                 r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
                                             params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователю] были выданы права на все команды. ({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.setrole king':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                creator.append(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] назначен создателем. ({m})&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
             if event.text.lower() == '.clear king':
