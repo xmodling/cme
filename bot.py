@@ -81,19 +81,6 @@ for event in longpoll.listen():
                                             params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] назначен создателем. ({m})&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
-            if event.text.lower() == '.myrole':
-              userid = event.__dict__['from']
-              if userid in creator:
-                role = 'создатель';
-              if userid in nfcusers and userid not in creator:
-                role = 'участник NFCClub'
-              if userid in users and userid not in nfcusers and userid not in creator:
-                role = 'простой мужик в трусах'
-              r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
-                                            method = 'messages.send',
-                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Ваша] роль - {role}&reply_to={event.message_id}',
-                                            token = token)
-                                            ).json()
             if event.text.lower() == '.clear king':
                 f = event.attachments['reply']
                 cid = json.loads(f)['conversation_message_id']
@@ -179,6 +166,21 @@ for event in longpoll.listen():
                                         token = token)
                                         ).json()
                         print(resp2)
+            if event.text.lower() == '.myrole':
+              text = event.__dict__
+              checkid = text['from']
+              userid = int(checkid)
+              if userid in creator:
+                role = 'создатель';
+              if userid in nfcusers and userid not in creator:
+                role = 'участник NFCClub'
+              if userid in users and userid not in nfcusers and userid not in creator:
+                role = 'простой мужик в трусах'
+              r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Ваша] роль - {role}&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
             if '.honor' in event.text.lower():
                 msg = 'В Lego Village завезли партию новых дилдо. Помогите Толику потерять анальную девственность и выбросить какашку без нфс. Хонор для латексных гомосексуалистов.';
                 respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
