@@ -314,11 +314,16 @@ for event in longpoll.listen():
                                   ).json()
                   else: 
 
-                      inf = gf.select('table.specs-table')[3].text.replace('\n\n', '\n')
-                      if 'процессор' in inf.lower():
-                          respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                      inf = gf.select('table.specs-table')
+                      for el in range(len(inf)):
+                        if 'процессор' not in inf[el].text.lower():
+                            el += 1
+                        else:
+                            print(el)
+                            g = inf[el].text.replace('\n\n\n', '\n')
+                      respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                               method = 'messages.send',
-                                              params = f'peer_id={event.peer_id}&random_id={0}&message={inf}.&reply_to={event.message_id}',
+                                              params = f'peer_id={event.peer_id}&random_id={0}&message={g}&reply_to={event.message_id}',
                                               token = token)
                                               ).json()
                       else:
