@@ -45,14 +45,14 @@ for event in longpoll.listen():
                                   params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
                                   token = token),
                                   ).json()  
-                  m = response['response']['items'][0]['from_id']
+                m = response['response']['items'][0]['from_id']
                 if event.text.lower() == '+bl':
                   bl.append(m)
                   blstatus = 'добавлен в чёрный список'
                 if event.text.lower() == '-bl':
                   bl.remove(m)
                   blstatus = "удалён из чёрного списка."
-                  r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                               method = 'messages.send',
                                               params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] {blstatus}&reply_to={event.message_id}',
                                               token = token)
