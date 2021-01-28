@@ -66,7 +66,7 @@ for event in longpoll.listen():
                                             params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователю] были выданы права на все команды. ({m})&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
-            if event.text.lower() == '.setrole king':
+            if event.text.lower() == '.setrole creator':
                 f = event.attachments['reply']
                 cid = json.loads(f)['conversation_message_id']
                 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -79,6 +79,19 @@ for event in longpoll.listen():
                 r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
                                             params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] назначен создателем. ({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.myrole':
+              userid = event.__dict__['from']
+              if userid in creator:
+                role = 'создатель';
+              if userid in nfcusers and userid not in creator:
+                role = 'участник NFCClub'
+              if userid in users and userid not in nfcusers and userid not in creator:
+                role = 'простой мужик в трусах'
+              r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Ваша] роль - {role}&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
             if event.text.lower() == '.clear king':
@@ -94,6 +107,26 @@ for event in longpoll.listen():
                 r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                             method = 'messages.send',
                                             params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Пользователь] потерял свои права на использование команд.({m})&reply_to={event.message_id}',
+                                            token = token)
+                                            ).json()
+            if event.text.lower() == '.clear all':
+                f = event.attachments['reply']
+                cid = json.loads(f)['conversation_message_id']
+                response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                method = 'messages.getByConversationMessageId',
+                                params = 'peer_id={z}&conversation_message_ids={x}'.format(z = event.peer_id, x = cid),
+                                token = token),
+                                ).json()  
+                m = response['response']['items'][0]['from_id']
+                if m in users:
+                  users.remove(m)
+                if m in nfcusers:
+                  nfcusers.remove(m)
+                if m in creator:
+                  creator.remove(m)
+                r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                            method = 'messages.send',
+                                            params = f'peer_id={event.peer_id}&random_id={0}&message=С [id{m}|пользователя] были сняты все роли.({m})&reply_to={event.message_id}',
                                             token = token)
                                             ).json()
             if event.text.lower() == '.clear prince':
