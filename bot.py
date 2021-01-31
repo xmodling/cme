@@ -199,7 +199,7 @@ for event in longpoll.listen():
                   role = 'простой мужик в трусах'
                 r = resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                               method = 'messages.send',
-                                              params = f'peer_id={event.peer_id}&random_id={0}&message=[id{m}|Ваша] роль - {role}&reply_to={event.message_id}',
+                                              params = f'peer_id={event.peer_id}&random_id={0}&message=[id{userid}|Ваша] роль - {role}&reply_to={event.message_id}',
                                               token = token)
                                               ).json()
               if '.honor' in event.text.lower():
