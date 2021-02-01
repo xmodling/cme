@@ -27,7 +27,7 @@ response = requests.get('https://api.vk.com/method/{method}?{params}&access_toke
     
 for event in longpoll.listen():
     try:
-        if not event.__dict__['from'] in bl:
+        if not int(event.__dict__['from']) in bl:
           text = event.__dict__
           checkid = text['from']
           if event.text.lower() == '.donate':
