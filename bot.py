@@ -177,7 +177,7 @@ for event in longpoll.listen():
                           print('ok')
                           resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.send',
-                                          params = 'peer_id={vga}&random_id={rid}&message={oga}&reply_to={rp}&attachment={roja}'.format(vga = event.peer_id, rid = 0, oga = '@helio_g90t, раскрыт фрагмент твоего лица! Виновник торжества: [id'+ checkid +'|NFCMan]', rp = event.message_id, roja = random.choice(album)),
+                                          params = 'peer_id={vga}&random_id={rid}&message={oga}&reply_to={rp}&attachment={roja}'.format(vga = event.peer_id, rid = 0, oga = '[id501435316|Мейзувод с анальным дроблением], раскрыт фрагмент твоего лица! Источник слитого фрагмента: [id'+ checkid +'|NFCMan]', rp = event.message_id, roja = random.choice(album)),
                                           token = token)
                                           ).json()
                       else:
