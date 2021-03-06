@@ -34,7 +34,7 @@ def anime_offender(peer_id, phrases):
                                           params = f'peer_id={peer_id}&random_id={0}&message=Хотелось бы напомнить, что аниме {random.choice(phrases)}',
                                           token = token)
                                           )
-        time.sleep(60)
+        time.sleep(3600)
 for event in longpoll.listen():
     try:
         if not int(event.__dict__['from']) in bl:
