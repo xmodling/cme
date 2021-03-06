@@ -3,7 +3,7 @@ import vk
 import vk_api
 import time
 import json
-import random
+import random, threading
 from bs4 import BeautifulSoup as BS
 import re
 import os
@@ -18,13 +18,23 @@ creator = [323588703, 615903213, 619542867]
 nfcusers = [323588703, 293158686, 284742001] + creator
 users = [445974783, 323588703, 284742001, 444609988, 548365367, 197753478] +  nfcusers
 bl = []
+anime_phrases = [
+  "хуйня", "параша", "помойка для детей", "говно для детей", "говно", "говнище", "высер", "недомультик", "бессмыленное говно",
+  "детский понос", "делает из детей овощей", "понос бомжа", "понос бомжа облитый мочой", "залупа"]
 album = 'photo615903213_457239169', 'photo615903213_457239170','photo615903213_457239073', 'photo615903213_457239072', 'photo615903213_457239071', 'photo615903213_457239070', 'photo615903213_457239069', 'photo615903213_457239068', 'photo615903213_457239067', 'photo615903213_457239066', 'photo615903213_457239065', 'photo615903213_457239064', 'photo615903213_457239063', 'photo615903213_457239062', 'photo615903213_457239061', 'photo615903213_457239060', 'photo615903213_457239059'
 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.getLongPollServer',
                         params = 'need_pts=0&ip_version=3',
                         token = token)
                         ).json()
-    
+def anime_offender(peer_id, phrases):
+    while True:
+        resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                          method = 'messages.send',
+                                          params = f'peer_id={peer_id}&random_id={0}&message=Хотелось бы напомнить, что аниме {random.choice(phrases)}',
+                                          token = token)
+                                          )
+        time.sleep(3600)
 for event in longpoll.listen():
     try:
         if not int(event.__dict__['from']) in bl:
@@ -37,6 +47,8 @@ for event in longpoll.listen():
                                           token = token)
                                           ).json()
           if int(checkid) in creator:
+              if event.text.lower() == '.anime':
+                  threading.Thread(target = anime_offender, args = (event.peer_id, anime_phrases)).start()
               if '+bl' in event.text.lower() or '-bl' in event.text.lower():
                 f = event.attachments['reply']
                 cid = json.loads(f)['conversation_message_id']
