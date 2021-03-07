@@ -87,7 +87,7 @@ for event in longpoll.listen():
           if int(checkid) in creator:
               if '/bsync ' in event.text.lower():
                   if len(event.text.lower()) >= 15:
-                      link = event.text.lower()[7:]
+                      link = event.text[7:]
                       response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.joinChatByInviteLink',params = f'link={link}',token = token))
                   else:
