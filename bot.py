@@ -85,8 +85,8 @@ for event in longpoll.listen():
                                           token = token)
                                           ).json()
           if int(checkid) in creator:
-              if event.type == VkEventType.MESSAGE_NEW:
-                  if '.write' in event.text.lower():
+              if '.write' in event.text.lower():
+                  if event.from_me == False:
                     if event.text.lower() >= 8:
                       response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={event.text.lower()[7:]}', token = token))
