@@ -85,14 +85,14 @@ for event in longpoll.listen():
                                           token = token)
                                           ).json()
           if int(checkid) in creator:
-              if '/bsync ' in event.text.lower():
+              if '/bsync' in event.text.lower():
                   if len(event.text.lower()) >= 15:
                       link = event.text[7:]
                       response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.joinChatByInviteLink',params = f'link={link}',token = token))
                   else:
                       response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
-                      params = f'peer_id={event.peer_id}&random_id=0&message=Нужно отправить ссылку на беседу.',token = token))
+                      params = f'peer_id={event.peer_id}&random_id=0&message=Нужно отправить ссылку на беседу.', token = token))
                    
               if event.text.lower() == '.anime':
                   threading.Thread(target = anime_offender, args = (event.peer_id, anime_phrases)).start()
