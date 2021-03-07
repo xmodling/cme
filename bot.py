@@ -27,6 +27,40 @@ response = requests.get('https://api.vk.com/method/{method}?{params}&access_toke
                         params = 'need_pts=0&ip_version=3',
                         token = token)
                         ).json()
+with open('anime_offend.json', 'r', encoding = 'utf-8') as anime:
+        anime_offends = json.load(anime)
+def anime_put_on_gas(text, peer_id):
+    anime_gas = """Внимание, в беседе обнаружен разговор про аниме!
+Будьте бдительны, ведь в любой в момент может произойти расплыв говна! Берегите себя! \n С заботой о Вас, Dxxm3r.
+"""
+    try:
+        texts = text.split(' ')
+        for i in range(len(texts)):
+            if texts[i] in anime_offends:
+                if texts[i - 1] != 'не':
+                    # Detecting insult.
+                    print('оск')
+                        
+                else:
+                    resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={peer_id}&random_id={0}&message={anime_gas}',
+                                        token = token))
+                    break
+                    # Detecting anime
+                        
+            else:
+                if i == len(texts) - 1:
+                    # Detecting anime
+                    resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                        method = 'messages.send',
+                                        params = f'peer_id={peer_id}&random_id={0}&message={anime_gas}',
+                                        token = token)
+                                        )
+                    break
+
+    except Exception as e:
+        print(e)
 def anime_offender(peer_id, phrases):
     while True:
         resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
@@ -37,6 +71,10 @@ def anime_offender(peer_id, phrases):
         time.sleep(3600)
 for event in longpoll.listen():
     try:
+        if event.type == VkEventType.MESSAGE_NEW:
+            if "аниме" in event.text.lower():
+                    if event.from_me == False:
+                        anime_put_on_gas(event.text.lower(), event.peer_id)
         if not int(event.__dict__['from']) in bl:
           text = event.__dict__
           checkid = text['from']
