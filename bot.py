@@ -27,7 +27,7 @@ response = requests.get('https://api.vk.com/method/{method}?{params}&access_toke
                         params = 'need_pts=0&ip_version=3',
                         token = token)
                         ).json()
-with open('anime_offend.json', 'r', encoding = 'utf-8') as anime:
+with open('static/anime_offend.json', 'r', encoding = 'utf-8') as anime:
         anime_offends = json.load(anime)
 def anime_put_on_gas(text, peer_id):
     anime_gas = """Внимание, в беседе обнаружен разговор про аниме!
