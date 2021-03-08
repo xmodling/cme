@@ -220,7 +220,7 @@ for event in longpoll.listen():
                                               ).json()
           if int(checkid) in users:
               if '.quote' in event.text.lower():
-                  if len(event.text.lower()) >= 7:
+                  if len(event.text.lower()) <= 7:
                       quote = f"Волчья цитата для тебя \n {quotes[random.randint(1, len(event.text.lower()) - 1)]}"
                   else:
                       quote_number = event.text.lower()[7:]
