@@ -221,13 +221,13 @@ for event in longpoll.listen():
           if int(checkid) in users:
               if '.quote' in event.text.lower():
                   if len(event.text.lower()) <= 7:
-                      quote = f"Волчья цитата для тебя \n {quotes[random.randint(1, len(event.text.lower()) - 1)]}"
+                      quote = f"Волчья цитата для тебя \n\n{quotes[random.randint(1, len(event.text.lower()) - 1)]}"
                   else:
-                      quote_number = event.text.lower()[7:]
+                      quote_number = int(event.text.lower()[7:])
                       if quote_number >= len(quotes):
                           quote = "Куда так гонишь, брат? Ты гнал так быстро, что обогнал цитаты"
                       else:
-                          quote = f"Волчья цитата для тебя \n {quotes[event.text.lower() - 1]}"
+                          quote = f"Волчья цитата для тебя \n\n{quotes[event.text.lower() - 1]}"
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
               if event.text.lower() == '.nfcstatus':
