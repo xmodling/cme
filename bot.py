@@ -221,7 +221,7 @@ for event in longpoll.listen():
           if int(checkid) in users:
               if '.quote' in event.text.lower():
                   if len(event.text.lower()) <= 7:
-                      quote = f"Волчья цитата для тебя \n©{quotes[random.randint(1, len(event.text.lower()) - 1)]}"
+                      quote = f"Волчья цитата для тебя \n©{quotes[random.randint(1, len(quotes) - 1)]}"
                   else:
                       quote_number = int(event.text.lower()[7:])
                       if quote_number > len(quotes):
