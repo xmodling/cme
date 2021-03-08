@@ -29,6 +29,8 @@ response = requests.get('https://api.vk.com/method/{method}?{params}&access_toke
                         ).json()
 with open('static/anime_offend.json', 'r', encoding = 'utf-8') as anime:
         anime_offends = json.load(anime)
+with open('static/quotes.json', 'r', encoding = 'utf-8') as f:
+        quotes = json.load(f)
 def anime_put_on_gas(text, peer_id):
     anime_gas = """Внимание, в беседе обнаружен разговор про аниме!
 Будьте бдительны, ведь в любой в момент может произойти расплыв говна! Берегите себя! \n С заботой о Вас, Dxxm3r.
@@ -217,6 +219,17 @@ for event in longpoll.listen():
                                               token = token)
                                               ).json()
           if int(checkid) in users:
+              if '.quote' in event.text.lower():
+                  if len(event.text.lower()) >= 7:
+                      quote = f"Волчья цитата для тебя \n {quotes[random.randint(1, len(event.text.lower()) - 1)]}"
+                  else:
+                      quote_number = event.text.lower()[7:]
+                      if quote_number >= len(quotes):
+                          quote = "Куда так гонишь, брат? Ты гнал так быстро, что обогнал цитаты"
+                      else:
+                          quote = f"Волчья цитата для тебя \n {quotes[event.text.lower() - 1]}"
+                  response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
+                          params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
               if event.text.lower() == '.nfcstatus':
                       text = event.__dict__
                       checkid = text['from']
