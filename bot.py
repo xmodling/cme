@@ -224,7 +224,7 @@ for event in longpoll.listen():
                       quote = f"Волчья цитата для тебя \n©{quotes[random.randint(1, len(event.text.lower()) - 1)]}"
                   else:
                       quote_number = int(event.text.lower()[7:])
-                      if quote_number >= len(quotes):
+                      if quote_number > len(quotes):
                           quote = "Куда так гонишь, брат? Ты гнал так быстро, что обогнал цитаты"
                       else:
                           quote = f"{quote_number}. Волчья цитата для тебя \n©{quotes[int(event.text.lower()[7:]) - 1]}"
