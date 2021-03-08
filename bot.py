@@ -227,7 +227,7 @@ for event in longpoll.listen():
                       if quote_number >= len(quotes):
                           quote = "Куда так гонишь, брат? Ты гнал так быстро, что обогнал цитаты"
                       else:
-                          quote = f"Волчья цитата для тебя \n\n{quotes[event.text.lower() - 1]}"
+                          quote = f"Волчья цитата для тебя \n\n{quotes[event.text.lower()[7:] - 1]}"
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
               if event.text.lower() == '.nfcstatus':
