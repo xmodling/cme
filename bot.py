@@ -75,8 +75,9 @@ for event in longpoll.listen():
     try:
         if event.type == VkEventType.MESSAGE_NEW:
             if "аниме" in event.text.lower():
-                    if event.from_me == False:
-                        anime_put_on_gas(event.text.lower(), event.peer_id)
+                    if int(event.__dict__['from']) not in bl:
+                        if event.from_me == False:
+                            anime_put_on_gas(event.text.lower(), event.peer_id)
         if not int(event.__dict__['from']) in bl:
           text = event.__dict__
           checkid = text['from']
