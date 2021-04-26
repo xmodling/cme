@@ -225,7 +225,7 @@ for event in longpoll.listen():
                           quote = f"{quote_number}. Волчья цитата для тебя \n©{quotes[int(event.text.lower()[7:]) - 1]}"
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
-              if '/pig' in event.text.lower() and if int(event.__dict__['from']) in nfcusers:
+              if '/pig' in event.text.lower() and int(event.__dict__['from']) in nfcusers:
                   threading.Thread(target=burp.BurpManager.burp_sender, args=[token, event, 90]).start()
               if event.text.lower() == '.nfcstatus':
                       text = event.__dict__
