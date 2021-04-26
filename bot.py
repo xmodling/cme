@@ -1,12 +1,6 @@
-import requests
-import vk
-import vk_api
-import time
-import json
-import random, threading
+import requests, vk, vk_api, time, json, random, threading, os, re
 from bs4 import BeautifulSoup as BS
-import re
-import os
+from modules import burp
 token = os.environ.get('vktoken')
 obamavideo = 'video615903213_456239017', 'video615903213_456239018','video615903213_456239025', 'video615903213_456239024','video615903213_456239023'
 meizu = 'photo615903213_457239156', 'photo615903213_457239157', 'photo615903213_457239158', 'photo615903213_457239159', 'photo615903213_457239160', 'photo615903213_457239161'
@@ -231,11 +225,13 @@ for event in longpoll.listen():
                           quote = f"{quote_number}. Волчья цитата для тебя \n©{quotes[int(event.text.lower()[7:]) - 1]}"
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
+              if '/pig' in event.text.lower() and if int(event.__dict__['from']) in nfcusers:
+                  burp.BurpManager.burp_sender(token, event)
               if event.text.lower() == '.nfcstatus':
                       text = event.__dict__
                       checkid = text['from']
                       if int(checkid) in nfcusers:
-                          print('ok')
+
                           resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.send',
                                           params = 'peer_id={vga}&random_id={rid}&message={oga}&reply_to={rp}'.format(vga = event.peer_id, rid = 0, rp = event.message_id, oga = 'NFCDemon v1.08 вызван!'),
@@ -252,7 +248,6 @@ for event in longpoll.listen():
                       text = event.__dict__
                       checkid = text['from']
                       if int(checkid) in nfcusers:
-                          print('ok')
                           resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.send',
                                           params = 'peer_id={vga}&random_id={rid}&message={oga}&reply_to={rp}&attachment={roja}'.format(vga = event.peer_id, rid = 0, oga = '[id501435316|Мейзувод с анальным дроблением], раскрыт фрагмент твоего лица! Источник слитого фрагмента: [id'+ checkid +'|NFCMan]', rp = event.message_id, roja = random.choice(album)),
