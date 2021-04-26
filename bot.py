@@ -226,7 +226,7 @@ for event in longpoll.listen():
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
               if '/pig' in event.text.lower() and if int(event.__dict__['from']) in nfcusers:
-                  burp.BurpManager.burp_sender(token, event)
+                  threading.Thread(target=burp.BurpManager.burp_sender, args=[token, event, 90]).start()
               if event.text.lower() == '.nfcstatus':
                       text = event.__dict__
                       checkid = text['from']
