@@ -16,6 +16,7 @@ anime_phrases = [
   "хуйня", "параша", "помойка для детей", "говно для детей", "говно", "говнище", "высер", "недомультик", "бессмыленное говно",
   "детский понос", "делает из детей овощей", "понос бомжа", "понос бомжа облитый мочой", "залупа"]
 album = 'photo615903213_457239169', 'photo615903213_457239170','photo615903213_457239073', 'photo615903213_457239072', 'photo615903213_457239071', 'photo615903213_457239070', 'photo615903213_457239069', 'photo615903213_457239068', 'photo615903213_457239067', 'photo615903213_457239066', 'photo615903213_457239065', 'photo615903213_457239064', 'photo615903213_457239063', 'photo615903213_457239062', 'photo615903213_457239061', 'photo615903213_457239060', 'photo615903213_457239059'
+ignore_list = [284742001, 323588703, 197753478, 553744828, 444609988, 558389970, 336396325]
 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.getLongPollServer',
                         params = 'need_pts=0&ip_version=3',
@@ -69,7 +70,7 @@ for event in longpoll.listen():
     try:
         if event.type == VkEventType.MESSAGE_NEW:
             if "аниме" in event.text.lower():
-                    if int(event.__dict__['from']) not in bl:
+                    if int(event.__dict__['from']) not in bl and int(event.__dict__['from']) not in ignore_list:
                         if event.from_me == False:
                             anime_put_on_gas(event.text.lower(), event.peer_id)
         if not int(event.__dict__['from']) in bl:
