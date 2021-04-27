@@ -16,7 +16,6 @@ class BurpManager:
             if len(event.__dict__['mentions']) == 1:
                 user = event.__dict__['mentions'][0]
         except KeyError:
-            print(event.__dict__)
             if 'vk.com/id' in event.text.lower():
                 if 'https://' in event.text.lower():
                     user = event.text.lower()[23:]
@@ -31,7 +30,6 @@ class BurpManager:
                                 method = 'users.get', params = f'user_ids={user}', token = token
                                     )
                                 ).json()['response'][0]['id']
-                print(user)
             else:
                 user = event.text.lower()[5:]
         for i in range(len(voicelist)):
