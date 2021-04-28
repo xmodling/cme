@@ -18,9 +18,9 @@ class BurpManager:
         except KeyError:
             if 'vk.com/id' in event.text.lower():
                 if 'https://' in event.text.lower():
-                    user = event.text.lower()[23:]
+                    user = event.text.lower()[22:]
                 else:
-                    user = event.text.lower()[13:]
+                    user = event.text.lower()[12:]
             elif 'vk.com' in event.text.lower():
                 if 'https://' in event.text.lower():
                     user = event.text.lower()[20:]
