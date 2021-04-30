@@ -712,4 +712,5 @@ for event in longpoll.listen():
                   except Exception:
                       None
     except Exception as es:
+        print(es)
         None
