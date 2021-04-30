@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 class UserInfo:
     def getUser(event, token):
+        print("start")
         soup = BeautifulSoup(requests.get(f'https://vk.com/foaf.php?id={event.__dict__["info"]["user_id"]}').text, 
         'lxml').find('ya:created').get('dc:date')
         user = requests.get(
