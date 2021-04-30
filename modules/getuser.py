@@ -8,7 +8,7 @@ class UserInfo:
         user = requests.get(
             'https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(method = 'users.get',params = f'user_id={event.__dict__["info"]["user_id"]}&fields=counters',token = token)
             ).json()['response'][0]['counters']
-            
+        print("start2")
         user = f'''
 🔎 Информация об [id{event.__dict__["info"]["user_id"]}|участнике]:
 📅 Дата регистрации: {soup[:soup.find("T")]}, {soup[soup.find("T")+1:soup.find("+")]}
@@ -18,4 +18,6 @@ class UserInfo:
 Количество аудиозаписей: {user["audios"]}
 🔮 На странице {user["videos"]} видеозаписей и {user["photos"]} фотографий.
 '''
+        print("start3")
         print(requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(params = f'random_id=0&peer_id={event.peer_id}&message={user}',token = token)).json())
+        print("start4")
