@@ -1,6 +1,6 @@
 import requests, vk, vk_api, time, json, random, threading, os, re
 from bs4 import BeautifulSoup as BS
-from modules import burp, antifake
+from modules import burp, antifake, getuser
 token = os.environ.get('vktoken')
 obamavideo = 'video615903213_456239017', 'video615903213_456239018','video615903213_456239025', 'video615903213_456239024','video615903213_456239023'
 meizu = 'photo615903213_457239156', 'photo615903213_457239157', 'photo615903213_457239158', 'photo615903213_457239159', 'photo615903213_457239160', 'photo615903213_457239161'
@@ -69,6 +69,7 @@ def anime_offender(peer_id, phrases):
 for event in longpoll.listen():
     try:
         if event.__dict__['type_id'] == 6:
+          getuser.UserInfo.getUser(event, token)
           antifake.AntiFake.fake_filter(event, token)
         if event.type == VkEventType.MESSAGE_NEW:
             if "аниме" in event.text.lower():
