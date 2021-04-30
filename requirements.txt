@@ -2,3 +2,4 @@ requests
 vk
 vk_api
 bs4
+lxml
