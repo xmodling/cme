@@ -68,7 +68,7 @@ def anime_offender(peer_id, phrases):
         time.sleep(3600)
 for event in longpoll.listen():
     try:
-        if event['type_id'] == 6:
+        if event.__dict__['type_id'] == 6:
           antifake.AntiFake.fake_filter(event, token)
         if event.type == VkEventType.MESSAGE_NEW:
             if "аниме" in event.text.lower():
