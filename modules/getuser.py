@@ -22,4 +22,4 @@ class UserInfo:
 Количество аудиозаписей: {user["audios"]}
 🔮 На странице {user["videos"]} видеозаписей и {user["photos"]} фотографий.
 '''
-        print(requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(params = f'random_id=0&peer_id={event.peer_id}&message={user}',token = token)).json())
+        requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(params = f'random_id=0&peer_id={event.peer_id}&message={user}',token = token))
