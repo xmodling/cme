@@ -1,17 +1,17 @@
 import requests, json, time
 class BurpManager:
-    def main(self):
-        return self
-    def burp_sender(token, event, interval):
-        voicelist = [
-        "575410091_595602721_aa1bb6f0cf8df80b21",
-        "575410091_595328931_4f7547ac8f6bffa308",
-        "575410091_595602874_93e452f4cb0ef492ee",
-        "575410091_595328951_382bd57aac13d443bb",
-        "575410091_595602888_a95967605fe8cf5f73",
-        "575410091_595602908_15fd5aaf2c79368eb9",
-        "575410091_595602908_15fd5aaf2c79368eb9",
-        ]
+    voicelist = []
+    def burp_updater(self, peer_id, token):
+        data = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                                                method = 'messages.getHistoryAttachments',
+                                                params = f'peer_id={peer_id}&count=200&media_type=audio_message',
+                                                token = token
+                                                )).json()['response']['items']
+        for i in range(len(data)):
+            self.voicelist.append(f'{data[i]["attachment"]["audio_message"]["owner_id"]}_{data[i]["attachment"]["audio_message"]["id"]}_{data[i]["attachment"]["audio_message"]["access_key"]}')
+        return self.voicelist
+    def burp_sender(self, voicelist, token, event, interval):
+        
         try: 
             if len(event.__dict__['mentions']) == 1:
                 user = event.__dict__['mentions'][0]

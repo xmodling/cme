@@ -1,9 +1,11 @@
 import requests, vk, vk_api, time, json, random, threading, os, re
 from bs4 import BeautifulSoup as BS
+
 from modules import burp, antifake, getuser
 token = os.environ.get('vktoken')
 obamavideo = 'video615903213_456239017', 'video615903213_456239018','video615903213_456239025', 'video615903213_456239024','video615903213_456239023'
 meizu = 'photo615903213_457239156', 'photo615903213_457239157', 'photo615903213_457239158', 'photo615903213_457239159', 'photo615903213_457239160', 'photo615903213_457239161'
+
 from vk_api.longpoll import VkLongPoll, VkEventType
 vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
@@ -17,6 +19,9 @@ anime_phrases = [
   "детский понос", "делает из детей овощей", "понос бомжа", "понос бомжа облитый мочой", "залупа"]
 album = 'photo615903213_457239169', 'photo615903213_457239170','photo615903213_457239073', 'photo615903213_457239072', 'photo615903213_457239071', 'photo615903213_457239070', 'photo615903213_457239069', 'photo615903213_457239068', 'photo615903213_457239067', 'photo615903213_457239066', 'photo615903213_457239065', 'photo615903213_457239064', 'photo615903213_457239063', 'photo615903213_457239062', 'photo615903213_457239061', 'photo615903213_457239060', 'photo615903213_457239059'
 ignore_list = [284742001, 323588703, 197753478, 553744828, 444609988, 558389970, 336396325, 499271600]
+voice_peer_id = 2000000067
+burp.BurpManager().burp_updater(voice_peer_id, token); voicelist = burp.BurpManager().voicelist
+
 response = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                         method = 'messages.getLongPollServer',
                         params = 'need_pts=0&ip_version=3',
@@ -35,7 +40,7 @@ def anime_put_on_gas(text, peer_id):
         for i in range(len(texts)):
             if texts[i] in anime_offends:
                 if texts[i - 1] != 'не':
-                    # Detecting insult.
+                    # Detecting insult
                     print('оск')
                         
                 else:
@@ -230,7 +235,7 @@ for event in longpoll.listen():
                   response = requests.get('https://api.vk.com/method/messages.send?{params}&access_token={token}&v=5.95'.format(
                           params = f'peer_id={event.peer_id}&random_id=0&message={quote}', token = token))
               if '/pig' in event.text.lower() and int(event.__dict__['from']) in nfcusers:
-                  threading.Thread(target=burp.BurpManager.burp_sender, args=[token, event, 30]).start()
+                  threading.Thread(target=burp.BurpManager().burp_sender, args=[voicelist, token, event, 30]).start()
               if event.text.lower() == '.nfcstatus':
                       text = event.__dict__
                       checkid = text['from']
