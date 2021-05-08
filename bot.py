@@ -1,11 +1,10 @@
-import requests, vk, vk_api, time, json, random, threading, os, re
+import requests, vk, vk_api, time, json, random, threading, os, re, datetime
 from bs4 import BeautifulSoup as BS
 
-from modules import burp, antifake, getuser
+from modules import burp, antifake, getuser, pingtester
 token = os.environ.get('vktoken')
 obamavideo = 'video615903213_456239017', 'video615903213_456239018','video615903213_456239025', 'video615903213_456239024','video615903213_456239023'
 meizu = 'photo615903213_457239156', 'photo615903213_457239157', 'photo615903213_457239158', 'photo615903213_457239159', 'photo615903213_457239160', 'photo615903213_457239161'
-
 from vk_api.longpoll import VkLongPoll, VkEventType
 vk_session = vk_api.VkApi(token=token)
 longpoll = VkLongPoll(vk_session)
@@ -419,8 +418,6 @@ for event in longpoll.listen():
                   open('annoyeer.py')
 
               if event.text.lower() == '.ping' or event.text.lower() == '.пинг':
-                  hostname = 'google.com'
-                  ping = os.system("ping -c 1 " + hostname)
                   respik = resp2 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.send',
                                           params = 'peer_id={vga}&random_id={rid}&message={oga}&reply_to={rp}'.format(vga = event.peer_id, rid = 0, oga = '⚙ Вычисляю пинг.   ' + '/', rp = event.message_id),
@@ -444,11 +441,11 @@ for event in longpoll.listen():
                                           params = 'message_ids={rid}&delete_for_all={oga}'.format(oga = 1, rid = event.message_id + 1),
                                           token = token)
                                           ).json()
-                  resp3 = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                  requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.send',
-                                          params = 'peer_id={pid}&random_id={rid}&message={msg}&reply_to={rp}'.format(pid = event.peer_id, rid = 0, msg = 'Понг! Задержка: ' + str(ping) + 's', rp = event.message_id),
+                                          params = 'peer_id={pid}&random_id={rid}&message={msg}&reply_to={rp}'.format(pid = event.peer_id, rid = 0, msg = f'Понг! Задержка: {pingtester.Ping().pingTester(datetime.datetime.now())}', rp = event.message_id),
                                           token = token)
-                                          ).json()
+                                          )
 
               text = event.__dict__
               checkid = text['from']
