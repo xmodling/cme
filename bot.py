@@ -437,7 +437,7 @@ for event in longpoll.listen():
                                           ).json()
                   requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                           method = 'messages.edit',
-                                          params = 'peer_id={pid}&message_id={rid}&message={msg}&reply_to={rp}&keep_forward_messages=1'.format(pid = event.peer_id, rid = event.message_id, msg = f'Понг! Задержка: {pingtester.Ping().pingTester(datetime.datetime.now())}', rp = event.message_id),
+                                          params = 'peer_id={pid}&message_id={rid}&message={msg}&reply_to={rp}&keep_forward_messages=1'.format(pid = event.peer_id, rid = event.message_id + 1, msg = f'Понг! Задержка: {pingtester.Ping().pingTester(datetime.datetime.now())}', rp = event.message_id),
                                           token = token)
                                           )
 
