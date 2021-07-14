@@ -39,21 +39,18 @@ def anime_put_on_gas(text, peer_id):
         for i in range(len(texts)):
             if texts[i] in anime_offends:
                 if texts[i - 1] != 'не':
-                    # Detecting insult
-                    print('оск')
+                    pass
                         
                 else:
-                    resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={peer_id}&random_id={0}&message={anime_gas}',
                                         token = token))
                     break
-                    # Detecting anime
                         
             else:
                 if i == len(texts) - 1:
-                    # Detecting anime
-                    resp = requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
+                    requests.get('https://api.vk.com/method/{method}?{params}&access_token={token}&v=5.95'.format(
                                         method = 'messages.send',
                                         params = f'peer_id={peer_id}&random_id={0}&message={anime_gas}',
                                         token = token)
